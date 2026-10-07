@@ -62,7 +62,7 @@ export function AccountPage({ profile, orders, onSave, onClear, onRepeat, onNavi
       </section>
 
       <section className="account-layout">
-        <ProfileForm profile={profile} onSave={onSave} onClear={onClear} />
+        <ProfileForm onSave={onSave} onClear={onClear} />
 
         <section className="orders-history">
           <div className="loyalty-grid">

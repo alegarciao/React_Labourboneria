@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { SiteFooter, SiteHeader, Toast } from './components/SiteChrome.jsx'
+import { useShop } from './context/useShop.js'
 import { PRODUCTS } from './data/products.js'
 import { AccountPage } from './pages/AccountPage.jsx'
 import { AdminPage } from './pages/AdminPage.jsx'
@@ -11,24 +12,16 @@ import { NotFoundPage } from './pages/NotFoundPage.jsx'
 import { readAppLocation, toAppHref } from './utils/navigation.js'
 import {
   DEFAULT_PROFILE,
-  STORAGE_KEYS,
   buildPersonalHistory,
   findProduct,
   getCartCount,
   getCartTotals,
-  loadCart,
-  loadLastOrder,
-  loadOrders,
-  loadProfile,
   normalizeItemOptions,
 } from './utils/shop.js'
 
 function App() {
   const [location, setLocation] = useState(() => ({ ...readAppLocation(), revision: 0 }))
-  const [cart, setCart] = useState(loadCart)
-  const [orders, setOrders] = useState(loadOrders)
-  const [lastOrder, setLastOrder] = useState(loadLastOrder)
-  const [profile, setProfile] = useState(loadProfile)
+  const { cart, setCart, orders, setOrders, lastOrder, setLastOrder, profile, setProfile, setProfileDraft } = useShop()
   const [toastMessage, setToastMessage] = useState('')
   const toastTimer = useRef(null)
 
@@ -38,19 +31,6 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify(cart))
-  }, [cart])
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEYS.orders, JSON.stringify(orders))
-  }, [orders])
-  useEffect(() => {
-    if (lastOrder) window.localStorage.setItem(STORAGE_KEYS.order, JSON.stringify(lastOrder))
-    else window.localStorage.removeItem(STORAGE_KEYS.order)
-  }, [lastOrder])
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify(profile))
-  }, [profile])
   useEffect(() => () => window.clearTimeout(toastTimer.current), [])
   useEffect(() => {
     const titles = {
@@ -141,11 +121,13 @@ function App() {
 
   function saveProfile(nextProfile) {
     setProfile(nextProfile)
+    setProfileDraft(nextProfile)
     showToast('Datos personales actualizados')
   }
 
   function clearProfile() {
     setProfile(DEFAULT_PROFILE)
+    setProfileDraft(DEFAULT_PROFILE)
     showToast('Datos personales limpiados')
   }
 
