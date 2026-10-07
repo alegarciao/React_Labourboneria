@@ -28,6 +28,10 @@ npm run dev
 - `src/data/`: catálogo de productos.
 - `src/utils/`: persistencia local, precios y reglas de pedidos.
 - `public/`: recursos públicos.
-- `.docs/`: proyecto Legacy y documento de arquitectura de componentes usados como referencia.
+- `.docs/Legacy/`: archivos HTML, CSS y JavaScript originales, conservados como referencia de migración.
 
 Los pedidos, el carrito y el perfil se guardan en el almacenamiento local del navegador. Las imágenes, fuentes e iconos conservan las referencias externas utilizadas por el Legacy.
+
+## Publicación
+
+El proyecto se publica en [GitHub Pages](https://alegarciao.github.io/React_Labourboneria/) mediante GitHub Actions cada vez que se actualiza la rama `main`.
