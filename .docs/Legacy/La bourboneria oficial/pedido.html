@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bourboneria | Pedido Confirmado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body data-page="pedido">
+  <header class="site-header">
+    <a class="brand" href="index.html"><strong><span>La Bourboneria</span></strong></a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="menu.html">Menú</a>
+      <a href="cuenta.html">Mi Cuenta</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="carrito.html" aria-label="Abrir carrito"><span class="cart-count">0</span><i
+          class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
+      <a class="icon-btn" href="admin.html" aria-label="Panel administrativo"><i class="fa-solid fa-user-gear"
+          aria-hidden="true"></i></a>
+    </div>
+  </header>
+
+  <main class="order-page">
+    <section class="order-status">
+      <span class="status-icon"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></span>
+      <p class="eyebrow">Orden <span data-order-number>#00428</span></p>
+      <h1>¡Pedido confirmado!</h1>
+      <p>Su pedido ha sido recibido en nuestra barra y estamos comenzando a prepararlo con la atención que merece.</p>
+    </section>
+
+    <section class="order-layout">
+      <article class="receipt">
+        <i></i><i></i><i></i><i></i>
+        <h2>Detalle del Pedido</h2>
+        <p>Recogida estimada: <strong>10:45 AM</strong></p>
+        <div class="receipt-divider"></div>
+        <div data-order-detail></div>
+        <div class="receipt-totals" data-order-totals></div>
+      </article>
+      <article class="pickup-photo">
+        <img src="https://i.pinimg.com/1200x/eb/35/fb/eb35fbcc1f1dfcca28f421f90a2d5179.jpg"
+          alt="Café listo para recoger">
+      </article>
+    </section>
+
+    <div class="order-actions">
+      <a class="btn primary" href="admin.html">Ver Estado del Pedido</a>
+      <a class="btn outline" href="menu.html">Volver al Menú</a>
+    </div>
+  </main>
+
+  <footer class="site-footer"></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bourboneria | Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body data-page="admin">
+  <header class="site-header">
+    <a class="brand" href="index.html"><strong><span>La Bourboneria</span></strong></a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="menu.html">Menú</a>
+      <a href="cuenta.html">Mi Cuenta</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="carrito.html" aria-label="Abrir carrito"><span class="cart-count">0</span><i
+          class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
+      <a class="icon-btn" href="admin.html" aria-label="Panel administrativo"><i class="fa-solid fa-user-gear"
+          aria-hidden="true"></i></a>
+    </div>
+  </header>
+
+  <main class="admin-shell compact">
+    <section class="admin-content">
+      <section class="dashboard-head">
+        <div>
+          <p class="eyebrow">Panel de Control</p>
+          <h1>Hola!</h1>
+        </div>
+        <div class="shift-info"><span data-current-date>Hoy</span><strong>Matutino</strong></div>
+      </section>
+      <section class="metric-grid">
+        <article><strong data-admin-pending>0</strong><span>Pedidos Pendientes</span><em>órdenes</em></article>
+        <article><strong data-admin-preparing>0</strong><span>En Preparación</span><em>órdenes</em></article>
+        <article><strong data-admin-ready>0</strong><span>Listos Para Recoger</span><em>órdenes</em></article>
+        <article class="dark"><strong data-admin-sales>Bs. 0.00</strong><span>Ventas de Hoy</span></article>
+      </section>
+      <section class="attention">
+        <div class="section-line">
+          <h2>Pedidos que necesitan atención</h2>
+        </div>
+        <div class="admin-orders" data-admin-orders></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer"></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

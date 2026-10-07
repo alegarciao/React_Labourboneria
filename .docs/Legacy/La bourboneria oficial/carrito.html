@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bourboneria | Carrito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body data-page="carrito">
+  <header class="site-header">
+    <a class="brand" href="index.html"><strong><span>La Bourboneria</span></strong></a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="menu.html">Menú</a>
+      <a href="cuenta.html">Mi Cuenta</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="carrito.html" aria-label="Abrir carrito"><span class="cart-count">0</span><i
+          class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
+      <a class="icon-btn" href="admin.html" aria-label="Panel administrativo"><i class="fa-solid fa-user-gear"
+          aria-hidden="true"></i></a>
+    </div>
+  </header>
+
+  <main class="cart-page">
+    <section class="order-status cart-intro">
+      <span class="status-icon"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i></span>
+      <p class="eyebrow">Carrito de Compras</p>
+      <h1>Revisa tu pedido</h1>
+      <p>Modifica cantidades, confirma el total en bolivianos y envía tu orden a la barra.</p>
+    </section>
+
+    <section class="order-layout">
+      <article class="receipt cart-receipt">
+        <i></i><i></i><i></i><i></i>
+        <h2>Detalle del Carrito</h2>
+        <p>Recogida estimada: <strong>15 minutos</strong></p>
+        <div class="receipt-divider"></div>
+        <div data-cart-section></div>
+      </article>
+      <article class="pickup-photo">
+        <img src="https://i.pinimg.com/1200x/eb/35/fb/eb35fbcc1f1dfcca28f421f90a2d5179.jpg"
+          alt="Café artesanal en mesa de madera">
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer"></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

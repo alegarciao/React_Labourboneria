@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bourboneria | Mi Cuenta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body data-page="cuenta">
+  <header class="site-header">
+    <a class="brand" href="index.html"><strong><span>La Bourboneria</span></strong></a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="menu.html">Menú</a>
+      <a class="active" href="cuenta.html">Mi Cuenta</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="carrito.html" aria-label="Abrir carrito"><span class="cart-count">0</span><i
+          class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
+      <a class="icon-btn" href="admin.html" aria-label="Panel administrativo"><i class="fa-solid fa-user-gear"
+          aria-hidden="true"></i></a>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <section class="account-hero">
+      <div>
+        <p class="eyebrow">Mi Cuenta</p>
+        <h1 data-account-title>El Rincón de María</h1>
+        <p><em>"Donde los buenos momentos se convierten en tradición."</em></p>
+      </div>
+      <div class="visit-card">
+        <span><i class="fa-solid fa-gem" aria-hidden="true"></i></span>
+        <strong>12</strong>
+        <small>Visitas este mes</small>
+      </div>
+    </section>
+
+    <section class="account-layout">
+      <aside class="profile-card">
+        <h2>Detalles Personales <button class="js-edit-profile" type="button" aria-label="Editar"><i
+              class="fa-solid fa-pen" aria-hidden="true"></i></button></h2>
+        <form class="profile-form" data-profile-form>
+          <label>Nombre<input name="name" type="text" autocomplete="name"></label>
+          <label>Correo Electrónico<input name="email" type="email" autocomplete="email"></label>
+          <label>Teléfono<input name="phone" type="tel" autocomplete="tel"></label>
+          <label>Dirección favorita<input name="address" type="text" autocomplete="street-address"></label>
+          <div class="profile-actions">
+            <button class="btn primary" type="submit">Guardar Datos</button>
+            <button class="btn outline js-clear-profile" type="button">Limpiar Datos</button>
+          </div>
+        </form>
+      </aside>
+
+      <section class="orders-history">
+        <div class="loyalty-grid">
+          <article class="loyalty-card">
+            <span><i class="fa-solid fa-medal" aria-hidden="true"></i></span>
+            <p>Programa de Fidelización</p>
+            <strong data-loyalty-points>0 pts</strong>
+            <small data-loyalty-message>Guarda tus datos para empezar a acumular puntos.</small>
+          </article>
+          <article class="loyalty-card">
+            <span><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></span>
+            <p>Entrega Guardada</p>
+            <strong data-saved-address>Sin dirección</strong>
+            <small>Se usará al repetir pedidos o confirmar compras.</small>
+          </article>
+        </div>
+        <div class="history-top">
+          <h2>Historial de Pedidos</h2><span>Últimos 6 meses</span>
+        </div>
+        <div data-account-orders></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer"></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bourboneria | Menú</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body data-page="menu">
+  <header class="site-header">
+    <a class="brand" href="index.html"><span><strong>La Bourboneria</strong></span>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a class="active" href="menu.html">Menú</a>
+        <a href="cuenta.html">Mi Cuenta</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-btn" href="carrito.html" aria-label="Abrir carrito"><span class="cart-count">0</span><i
+            class="fa-solid fa-cart-shopping" aria-hidden="true"></i></a>
+        <a class="icon-btn" href="admin.html" aria-label="Panel administrativo"><i class="fa-solid fa-user-gear"
+            aria-hidden="true"></i></a>
+      </div>
+  </header>
+
+  <main class="menu-page">
+    <section class="intro-panel">
+      <div class="ornament"></div>
+      <h1>Nuestro Menú</h1>
+      <p>Selecciones artesanales preparadas con esmero. Explore nuestra oferta de cafés de especialidad, bollería
+        horneada diariamente y opciones selectas para cada momento del día.</p>
+      <div class="ornament"></div>
+    </section>
+
+    <section class="tabs" role="tablist" aria-label="Categorías de menú">
+      <button class="tab active" id="tab-cafes" role="tab" aria-selected="true" aria-controls="menu-panel" tabindex="0" data-filter="cafes">Cafés</button>
+      <button class="tab" id="tab-bebidas" role="tab" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-filter="bebidas">Bebidas</button>
+      <button class="tab" id="tab-desayunos" role="tab" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-filter="desayunos">Desayunos</button>
+      <button class="tab" id="tab-postres" role="tab" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-filter="postres">Postres</button>
+      <button class="tab" id="tab-especialidades" role="tab" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-filter="especialidades">Especialidades</button>
+    </section>
+    <p class="sr-only" aria-live="polite" data-menu-announcement>Mostrando Cafés de Especialidad.</p>
+
+    <section class="menu-section" id="menu-panel" role="tabpanel" aria-labelledby="tab-cafes" tabindex="0">
+      <div class="section-line">
+        <h2>Cafés de Especialidad</h2>
+      </div>
+      <div class="menu-grid" data-menu-list></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

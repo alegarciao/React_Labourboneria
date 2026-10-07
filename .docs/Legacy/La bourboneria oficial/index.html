@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bourboneria | Inicio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+    integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+
+<body data-page="inicio">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Ir al inicio">
+      <!-- <span class="brand-mark">LB</span> -->
+      <span><strong>La Bourboneria</strong></span>
+    </a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a class="active" href="index.html">Inicio</a>
+      <a href="menu.html">Menú</a>
+      <a href="cuenta.html">Mi Cuenta</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="carrito.html" aria-label="Abrir carrito">
+        <span class="cart-count">0</span>
+        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+      </a>
+      <a class="icon-btn" href="admin.html" aria-label="Panel administrativo"><i class="fa-solid fa-user-gear"
+          aria-hidden="true"></i></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Café de especialidad & tradición</p>
+        <h1>La Bourboneria</h1>
+        <p>Cafés que van contigo. Un rincón europeo en el corazón de la ciudad donde cada taza cuenta una historia.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="menu.html">Ver Menú</a>
+          <a class="btn ghost-light" href="menu.html#cafes">Hacer Mi Pedido</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits section-band">
+      <article>
+        <span class="line-icon"><i class="fa-solid fa-mug-hot"></i></span>
+        <h3>Café de Especialidad</h3>
+        <p>Tostaderos asociados, 100% arábica y extracción precisa.</p>
+      </article>
+      <article>
+        <span class="line-icon"><i class="fa-solid fa-bread-slice"></i></span>
+        <h3>Panadería Matutina</h3>
+        <p>Croissants, masas, tartas y focaccia horneadas en casa.</p>
+      </article>
+      <article>
+        <span class="line-icon"><i class="fa-solid fa-cheese"></i></span>
+        <h3>Desayuno Todo el Día</h3>
+        <p>Platos servidos hasta el cierre, sin perder el encanto lento.</p>
+      </article>
+      <article>
+        <span class="line-icon"><i class="fa-solid fa-egg"></i></span>
+        <h3>Pedidos Rápidos</h3>
+        <p>Ordena antes y estará en camino en 15 minutos.</p>
+      </article>
+    </section>
+
+    <section class="section-wrap">
+      <div class="section-heading">
+        <span>Nuestros Favoritos</span>
+        <h2>Selecciones de la Casa</h2>
+      </div>
+      <div class="favorites-grid">
+        <article class="product-card">
+          <img src="https://i.pinimg.com/1200x/c3/41/c9/c341c9711576ff79b316de129baea4f1.jpg"
+            alt="Latte macchiato clásico sobre mesa de madera">
+          <div class="product-body">
+            <div class="product-title">
+              <h3>Latte Macchiato Clásico</h3><strong>Bs. 30</strong>
+            </div>
+            <p>Leche texturizada manchada con un shot de espresso denso. Servido en vaso alto tradicional.</p>
+            <button class="btn outline js-add" data-id="latte-clasico">Agregar</button>
+          </div>
+        </article>
+        <article class="product-card featured">
+          <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=720&q=80"
+            alt="Tostada de aguacate servida en plato">
+          <div class="product-body">
+            <div class="product-title">
+              <h3>Tostada de Aguacate</h3><strong>Bs. 45</strong>
+            </div>
+            <p>Masa madre crujiente con aguacate hass machacado, huevo de corral y microbrotes.</p>
+            <button class="btn primary js-add" data-id="tostada-aguacate">Agregar</button>
+          </div>
+        </article>
+        <article class="product-card">
+          <img src="https://i.pinimg.com/736x/2d/7f/d9/2d7fd9ea299d16f0d7b56f2e395ef925.jpg"
+            alt="Croissant de mantequilla en plato">
+          <div class="product-body">
+            <div class="product-title">
+              <h3>Croissant de Mantequilla</h3><strong>Bs. 18</strong>
+            </div>
+            <p>Horneado fresco cada mañana. Capas hojaldradas y ligeras con un rico sabor a mantequilla.</p>
+            <button class="btn outline js-add" data-id="croissant-mantequilla">Agregar</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="story section-band">
+      <div class="framed-image">
+        <img src="https://i.pinimg.com/736x/aa/b8/fa/aab8fafafeac9f0931291bc8af0e15c2.jpg"
+          alt="Barista preparando café">
+      </div>
+      <div>
+        <p class="eyebrow">Nuestra Historia</p>
+        <h2>Sobre La Bourboneria</h2>
+        <p>Nacida de la pasión por el café auténtico y la panadería artesanal, La Bourboneria es más que una cafetería:
+          es una experiencia sensorial.</p>
+        <p>Rescatamos métodos tradicionales, seleccionamos granos de origen y horneamos con paciencia para que cada
+          visita conserve el ritmo del presente.</p>
+      </div>
+    </section>
+
+    <section class="location-block">
+      <div>
+        <p class="eyebrow">Ubicación</p>
+        <h2>Un rincón tranquilo en el Barrio Histórico</h2>
+        <p>La Bourboneria se encuentra en Calle Salamanca, a pasos de las galerías antiguas del centro.
+          Es un lugar pensado para llegar caminando, pedir un café sin prisa y quedarse a
+          conversar.</p>
+      </div>
+      <div class="location-card">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfA6ejtRiLKZTzwQtK572j5BSnJ0vOhFBSruRI4Unf2OpFUdOU_qNqBWva&s=10"
+          alt="">
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
