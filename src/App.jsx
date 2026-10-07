@@ -22,7 +22,10 @@ import {
 } from './utils/shop.js'
 
 function readLocation() {
-  const path = window.location.pathname.replace(/\/$/, '') || '/'
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
+  const currentPath = window.location.pathname.replace(/\/$/, '') || '/'
+  const isWithinBase = basePath && (currentPath === basePath || currentPath.startsWith(`${basePath}/`))
+  const path = (isWithinBase ? currentPath.slice(basePath.length) : currentPath) || '/'
   const aliases = {
     '/': 'inicio',
     '/index.html': 'inicio',
@@ -82,7 +85,8 @@ function App() {
   }, [location.page])
 
   function navigate(href) {
-    const next = new URL(href, window.location.href)
+    const baseUrl = new URL(import.meta.env.BASE_URL, window.location.origin)
+    const next = new URL(href.replace(/^\//, ''), baseUrl)
     window.history.pushState({}, '', `${next.pathname}${next.search}${next.hash}`)
     setLocation((current) => ({ ...readLocation(), revision: current.revision + 1 }))
     window.scrollTo(0, 0)
