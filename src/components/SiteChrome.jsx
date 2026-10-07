@@ -1,13 +1,23 @@
+import { toAppHref } from '../utils/navigation.js'
+
 export function AppLink({ href, onNavigate, children, ...props }) {
+  const appHref = toAppHref(href)
+
   function handleClick(event) {
     props.onClick?.(event)
-    if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
     if (props.target && props.target !== '_self') return
+    if (props.download || href.startsWith('#') || typeof onNavigate !== 'function') return
+
+    const destination = new URL(appHref, window.location.href)
+    const basePath = new URL(import.meta.env.BASE_URL, window.location.origin).pathname.replace(/\/$/, '')
+    if (destination.origin !== window.location.origin || (basePath && destination.pathname !== basePath && !destination.pathname.startsWith(`${basePath}/`))) return
+
     event.preventDefault()
     onNavigate(href)
   }
 
-  return <a href={href} {...props} onClick={handleClick}>{children}</a>
+  return <a href={appHref} {...props} onClick={handleClick}>{children}</a>
 }
 
 export function SiteHeader({ page, cartCount, onNavigate }) {

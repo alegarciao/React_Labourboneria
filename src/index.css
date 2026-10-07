@@ -740,6 +740,13 @@ h3 {
   padding: 36px 0;
 }
 
+.not-found-page {
+  display: grid;
+  min-height: 56vh;
+  align-items: center;
+  padding: 64px 24px;
+}
+
 .cart-page {
   padding: 64px 0 82px;
 }

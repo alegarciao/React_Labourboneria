@@ -7,6 +7,8 @@ import { CartPage } from './pages/CartPage.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { MenuPage } from './pages/MenuPage.jsx'
 import { OrderPage } from './pages/OrderPage.jsx'
+import { NotFoundPage } from './pages/NotFoundPage.jsx'
+import { readAppLocation, toAppHref } from './utils/navigation.js'
 import {
   DEFAULT_PROFILE,
   STORAGE_KEYS,
@@ -21,30 +23,8 @@ import {
   normalizeItemOptions,
 } from './utils/shop.js'
 
-function readLocation() {
-  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
-  const currentPath = window.location.pathname.replace(/\/$/, '') || '/'
-  const isWithinBase = basePath && (currentPath === basePath || currentPath.startsWith(`${basePath}/`))
-  const path = (isWithinBase ? currentPath.slice(basePath.length) : currentPath) || '/'
-  const aliases = {
-    '/': 'inicio',
-    '/index.html': 'inicio',
-    '/menu': 'menu',
-    '/menu.html': 'menu',
-    '/carrito': 'carrito',
-    '/carrito.html': 'carrito',
-    '/pedido': 'pedido',
-    '/pedido.html': 'pedido',
-    '/cuenta': 'cuenta',
-    '/cuenta.html': 'cuenta',
-    '/admin': 'admin',
-    '/admin.html': 'admin',
-  }
-  return { page: aliases[path] || 'inicio', hash: window.location.hash }
-}
-
 function App() {
-  const [location, setLocation] = useState(() => ({ ...readLocation(), revision: 0 }))
+  const [location, setLocation] = useState(() => ({ ...readAppLocation(), revision: 0 }))
   const [cart, setCart] = useState(loadCart)
   const [orders, setOrders] = useState(loadOrders)
   const [lastOrder, setLastOrder] = useState(loadLastOrder)
@@ -53,7 +33,7 @@ function App() {
   const toastTimer = useRef(null)
 
   useEffect(() => {
-    const handlePopState = () => setLocation((current) => ({ ...readLocation(), revision: current.revision + 1 }))
+    const handlePopState = () => setLocation((current) => ({ ...readAppLocation(), revision: current.revision + 1 }))
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
@@ -80,16 +60,28 @@ function App() {
       pedido: 'Pedido Confirmado',
       cuenta: 'Mi Cuenta',
       admin: 'Panel',
+      notFound: 'Página no encontrada',
     }
-    document.title = `La Bourboneria | ${titles[location.page] || 'Inicio'}`
+    document.title = `La Bourboneria | ${titles[location.page]}`
   }, [location.page])
 
+  useEffect(() => {
+    if (!location.hash) return
+    let targetId = location.hash.slice(1)
+    try {
+      targetId = decodeURIComponent(targetId)
+    } catch {
+      // A malformed URL fragment should not prevent the route from rendering.
+    }
+    window.requestAnimationFrame(() => document.getElementById(targetId)?.scrollIntoView())
+  }, [location.hash, location.page, location.revision])
+
   function navigate(href) {
-    const baseUrl = new URL(import.meta.env.BASE_URL, window.location.origin)
-    const next = new URL(href.replace(/^\//, ''), baseUrl)
+    const next = new URL(toAppHref(href), window.location.href)
+    if (next.origin !== window.location.origin) return
     window.history.pushState({}, '', `${next.pathname}${next.search}${next.hash}`)
-    setLocation((current) => ({ ...readLocation(), revision: current.revision + 1 }))
-    window.scrollTo(0, 0)
+    setLocation((current) => ({ ...readAppLocation(), revision: current.revision + 1 }))
+    if (!next.hash) window.scrollTo(0, 0)
   }
 
   function showToast(message) {
@@ -188,6 +180,7 @@ function App() {
       {location.page === 'pedido' && <OrderPage key={location.revision} order={lastOrder} onNavigate={navigate} />}
       {location.page === 'cuenta' && <AccountPage key={location.revision} profile={profile} orders={orders} onSave={saveProfile} onClear={clearProfile} onRepeat={repeatOrder} onNavigate={navigate} />}
       {location.page === 'admin' && <AdminPage key={location.revision} orders={orders} onAdvance={advanceOrder} onNavigate={navigate} />}
+      {location.page === 'notFound' && <NotFoundPage onNavigate={navigate} />}
       <SiteFooter />
       <Toast message={toastMessage} />
     </>
