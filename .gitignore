@@ -14,6 +14,11 @@ dist-ssr
 coverage
 .DS_Store
 
+# Local environment variables (keep the safe template versioned)
+.env
+.env.*
+!.env.example
+
 # Starter template files not used by La Bourboneria
 src/App.css
 src/assets/hero.png
