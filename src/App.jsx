@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { SiteFooter, SiteHeader, Toast } from './components/SiteChrome.jsx'
 import { useShop } from './context/useShop.js'
-import { PRODUCTS } from './data/products.js'
 import { AccountPage } from './pages/AccountPage.jsx'
-import { AdminPage } from './pages/AdminPage.jsx'
+import { RestrictedAdminPage } from './pages/RestrictedAdminPage.jsx'
 import { CartPage } from './pages/CartPage.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { MenuPage } from './pages/MenuPage.jsx'
 import { OrderPage } from './pages/OrderPage.jsx'
 import { NotFoundPage } from './pages/NotFoundPage.jsx'
 import { readAppLocation, toAppHref } from './utils/navigation.js'
+import { submitOrderToSupabase } from './services/orders.js'
 import {
   DEFAULT_PROFILE,
   buildPersonalHistory,
@@ -21,8 +21,10 @@ import {
 
 function App() {
   const [location, setLocation] = useState(() => ({ ...readAppLocation(), revision: 0 }))
-  const { cart, setCart, orders, setOrders, lastOrder, setLastOrder, profile, setProfile, setProfileDraft } = useShop()
+  const { cart, setCart, orders, setOrders, lastOrder, setLastOrder, profile, setProfile, setProfileDraft, products, catalogError, catalogLoading } = useShop()
   const [toastMessage, setToastMessage] = useState('')
+  const [checkoutPending, setCheckoutPending] = useState(false)
+  const [checkoutError, setCheckoutError] = useState('')
   const toastTimer = useRef(null)
 
   useEffect(() => {
@@ -71,7 +73,7 @@ function App() {
   }
 
   function addToCart(id, qty = 1) {
-    const product = findProduct(id)
+    const product = findProduct(id, products)
     if (!product) return
     setCart((current) => {
       const existing = current.find((item) => item.id === id)
@@ -97,26 +99,37 @@ function App() {
     showToast('Carrito limpiado')
   }
 
-  function checkout() {
-    if (!cart.length) return
-    const currentOrder = {
-      number: `#${String(Date.now()).slice(-5)}`,
-      status: 'pendiente',
-      customer: {
-        name: profile.name || 'Cliente sin nombre',
-        email: profile.email || 'Sin correo',
-        phone: profile.phone || 'Sin teléfono',
-        address: profile.address || 'Sin dirección',
-      },
-      items: cart.map(normalizeItemOptions),
-      totals: getCartTotals(cart),
-      createdAt: new Date().toISOString(),
+  async function checkout() {
+    if (!cart.length || checkoutPending || catalogLoading || catalogError) return
+    setCheckoutPending(true)
+    setCheckoutError('')
+
+    try {
+      const orderNumber = await submitOrderToSupabase(profile, cart)
+      const currentOrder = {
+        number: orderNumber,
+        status: 'pendiente',
+        customer: {
+          name: profile.name || 'Cliente sin nombre',
+          email: profile.email || 'Sin correo',
+          phone: profile.phone || 'Sin teléfono',
+          address: profile.address || 'Sin dirección',
+        },
+        items: cart.map((item) => normalizeItemOptions(item, products)),
+        totals: getCartTotals(cart, products),
+        createdAt: new Date().toISOString(),
+        savedRemotely: true,
+      }
+      setLastOrder(currentOrder)
+      setOrders((current) => [currentOrder, ...current].slice(0, 12))
+      setCart([])
+      navigate('/pedido')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No se pudo guardar el pedido.'
+      setCheckoutError(`No se confirmó el pedido: ${message}`)
+    } finally {
+      setCheckoutPending(false)
     }
-    setLastOrder(currentOrder)
-    setOrders((current) => [currentOrder, ...current].slice(0, 12))
-    setCart([])
-    // El flujo del Legacy envía la nueva orden al panel para su atención.
-    navigate('/admin')
   }
 
   function saveProfile(nextProfile) {
@@ -132,7 +145,7 @@ function App() {
   }
 
   function repeatOrder(number) {
-    const order = [...orders, ...buildPersonalHistory(profile)].find((item) => item.number === number)
+    const order = [...orders, ...buildPersonalHistory(profile, products)].find((item) => item.number === number)
     if (!order) return
     setCart(order.items.map((item) => ({
       id: item.id,
@@ -145,23 +158,20 @@ function App() {
     window.setTimeout(() => navigate('/carrito'), 650)
   }
 
-  function advanceOrder(number, status) {
-    setOrders((current) => current.map((order) => order.number === number ? { ...order, status } : order))
-    showToast('Estado de orden actualizado')
-  }
-
   const menuHash = location.hash.replace('#', '')
-  const menuCategory = PRODUCTS.some((product) => product.category === menuHash) ? menuHash : 'cafes'
+  const menuCategory = products.some((product) => product.category === menuHash) ? menuHash : 'cafes'
 
   return (
     <>
       <SiteHeader page={location.page} cartCount={getCartCount(cart)} onNavigate={navigate} />
-      {location.page === 'inicio' && <HomePage key={location.revision} onAdd={addToCart} onNavigate={navigate} />}
-      {location.page === 'menu' && <MenuPage key={`${location.revision}-${menuCategory}`} onAdd={addToCart} initialCategory={menuCategory} />}
-      {location.page === 'carrito' && <CartPage key={location.revision} cart={cart} totals={getCartTotals(cart)} onQuantityChange={changeQuantity} onPreferenceChange={updatePreference} onCheckout={checkout} onClear={clearCart} onNavigate={navigate} />}
-      {location.page === 'pedido' && <OrderPage key={location.revision} order={lastOrder} onNavigate={navigate} />}
-      {location.page === 'cuenta' && <AccountPage key={location.revision} profile={profile} orders={orders} onSave={saveProfile} onClear={clearProfile} onRepeat={repeatOrder} onNavigate={navigate} />}
-      {location.page === 'admin' && <AdminPage key={location.revision} orders={orders} onAdvance={advanceOrder} onNavigate={navigate} />}
+      {catalogLoading && <p className="catalog-warning" role="status">Actualizando los precios del catálogo…</p>}
+      {catalogError && <p className="catalog-warning" role="alert">{catalogError}</p>}
+      {location.page === 'inicio' && <HomePage key={location.revision} products={products} onAdd={addToCart} onNavigate={navigate} />}
+      {location.page === 'menu' && <MenuPage key={`${location.revision}-${menuCategory}`} products={products} onAdd={addToCart} initialCategory={menuCategory} />}
+      {location.page === 'carrito' && <CartPage key={location.revision} cart={cart} products={products} totals={getCartTotals(cart, products)} onQuantityChange={changeQuantity} onPreferenceChange={updatePreference} onCheckout={checkout} checkoutPending={checkoutPending} checkoutDisabled={catalogLoading || Boolean(catalogError)} catalogUnavailable={Boolean(catalogError)} checkoutError={checkoutError} onClear={clearCart} onNavigate={navigate} />}
+      {location.page === 'pedido' && <OrderPage key={location.revision} order={lastOrder} products={products} onNavigate={navigate} />}
+      {location.page === 'cuenta' && <AccountPage key={location.revision} profile={profile} orders={orders} products={products} onSave={saveProfile} onClear={clearProfile} onRepeat={repeatOrder} onNavigate={navigate} />}
+      {location.page === 'admin' && <RestrictedAdminPage onNavigate={navigate} />}
       {location.page === 'notFound' && <NotFoundPage onNavigate={navigate} />}
       <SiteFooter />
       <Toast message={toastMessage} />

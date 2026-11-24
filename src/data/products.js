@@ -216,3 +216,7 @@ export const PRODUCTS = [
     description: "Bolsa de café, trufas artesanales y tarjeta personalizada en empaque vintage."
   }
 ];
+
+// El catálogo es una fuente de consulta; el carrito guarda solo IDs y opciones.
+for (const product of PRODUCTS) Object.freeze(product);
+Object.freeze(PRODUCTS);

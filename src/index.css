@@ -970,6 +970,32 @@ h3 {
   flex-wrap: wrap;
 }
 
+.checkout-privacy-note {
+  margin: 18px 0 0;
+  color: var(--text-muted, #666);
+  font-size: .86rem;
+  line-height: 1.5;
+}
+
+.catalog-warning {
+  margin: 0;
+  padding: 10px 24px;
+  color: var(--cafe-noir);
+  background: var(--card-tan);
+  text-align: center;
+}
+
+.checkout-error {
+  margin: 12px 0 0;
+  color: #9b2c20;
+  font-size: .9rem;
+}
+
+.cart-page-actions button:disabled {
+  cursor: wait;
+  opacity: .7;
+}
+
 .empty-cart {
   display: grid;
   justify-items: center;
@@ -1051,6 +1077,13 @@ h3 {
   padding-bottom: 18px;
   color: var(--ink);
   font-size: 1.05rem;
+}
+
+.profile-storage-note {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.55;
 }
 
 .profile-card h2 button {

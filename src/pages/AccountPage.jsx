@@ -3,11 +3,11 @@ import { AccountInfoCard, ProfileForm } from '../components/AccountComponents.js
 import { AppLink } from '../components/SiteChrome.jsx'
 import { buildPersonalHistory, formatMoney, formatOrderDate, hasProfileDetails, itemNotes, orderMatchesProfile, findProduct } from '../utils/shop.js'
 
-function accountOrders(profile, orders) {
+function accountOrders(profile, orders, products) {
   if (!hasProfileDetails(profile)) return []
   return [
     ...orders.filter((order) => orderMatchesProfile(order, profile)),
-    ...buildPersonalHistory(profile),
+    ...buildPersonalHistory(profile, products),
   ].slice(0, 4)
 }
 
@@ -18,7 +18,7 @@ function orderStatus(status) {
   return { label: 'Pendiente', color: 'red' }
 }
 
-function HistoryCard({ order, index, profile, onRepeat }) {
+function HistoryCard({ order, index, profile, products, onRepeat }) {
   const status = orderStatus(order.status)
   return (
     <article className={`history-card${index === 0 ? ' active' : ''}`}>
@@ -28,9 +28,9 @@ function HistoryCard({ order, index, profile, onRepeat }) {
         <p>{order.customer?.name || profile.name || 'Cliente sin nombre'}</p>
         <ul>
           {order.items.map((item, itemIndex) => {
-            const product = findProduct(item.id)
+            const product = findProduct(item.id, products)
             if (!product) return null
-            const notes = itemNotes(item)
+            const notes = itemNotes(item, products)
             return <li key={`${item.id}-${itemIndex}`}>{item.qty}x {product.name}{notes && <small> {notes}</small>}</li>
           })}
         </ul>
@@ -45,8 +45,8 @@ function HistoryCard({ order, index, profile, onRepeat }) {
   )
 }
 
-export function AccountPage({ profile, orders, onSave, onClear, onRepeat, onNavigate }) {
-  const shownOrders = useMemo(() => accountOrders(profile, orders), [profile, orders])
+export function AccountPage({ profile, orders, products, onSave, onClear, onRepeat, onNavigate }) {
+  const shownOrders = useMemo(() => accountOrders(profile, orders, products), [profile, orders, products])
   const realOrders = hasProfileDetails(profile) ? orders.filter((order) => orderMatchesProfile(order, profile)) : []
   const points = realOrders.reduce((sum, order) => sum + Math.floor(Number(order.totals?.total || 0)), 0) + (hasProfileDetails(profile) ? 50 : 0)
 
@@ -70,7 +70,7 @@ export function AccountPage({ profile, orders, onSave, onClear, onRepeat, onNavi
             <AccountInfoCard icon="fa-solid fa-truck-fast" title="Entrega Guardada" value={profile.address || 'Sin dirección'} description="Se usará al repetir pedidos o confirmar compras." />
           </div>
           <div className="history-top"><h2>Historial de Pedidos</h2><span>Últimos 6 meses</span></div>
-          {shownOrders.length ? shownOrders.map((order, index) => <HistoryCard key={`${order.number}-${index}`} order={order} index={index} profile={profile} onRepeat={onRepeat} />) : (
+          {shownOrders.length ? shownOrders.map((order, index) => <HistoryCard key={`${order.number}-${index}`} order={order} index={index} profile={profile} products={products} onRepeat={onRepeat} />) : (
             <article className="history-card active">
               <div><p>Sin pedidos todavía</p><strong>Aún no has realizado ningún pedido</strong><ul><li>Cuando confirmes un pedido desde el carrito, aparecerá aquí automáticamente.</li></ul></div>
               <div><span className="tag tan">Vacío</span><p>Total del Pedido</p><strong>{formatMoney(0)}</strong><AppLink className="btn primary" href="/menu" onNavigate={onNavigate}>Ir al Menú</AppLink></div>

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { PRODUCTS } from '../data/products.js'
 import { CategoryTabs, ProductCard } from '../components/Products.jsx'
 
 const CATEGORIES = [
@@ -10,10 +9,10 @@ const CATEGORIES = [
   { id: 'especialidades', label: 'Especialidades', title: 'Especialidades de la Casa' },
 ]
 
-export function MenuPage({ onAdd, initialCategory = 'cafes' }) {
+export function MenuPage({ products, onAdd, initialCategory = 'cafes' }) {
   const [selected, setSelected] = useState(initialCategory)
   const category = CATEGORIES.find((item) => item.id === selected) || CATEGORIES[0]
-  const products = PRODUCTS.filter((product) => product.category === selected)
+  const categoryProducts = products.filter((product) => product.category === selected)
 
   return (
     <main className="menu-page">
@@ -25,11 +24,11 @@ export function MenuPage({ onAdd, initialCategory = 'cafes' }) {
       </section>
 
       <CategoryTabs categories={CATEGORIES} selected={selected} onSelect={setSelected} />
-      <p className="sr-only" aria-live="polite">Mostrando {products.length} productos en {category.title}.</p>
+      <p className="sr-only" aria-live="polite">Mostrando {categoryProducts.length} productos en {category.title}.</p>
       <section className="menu-section" id="menu-panel" role="tabpanel" aria-labelledby={`tab-${selected}`} tabIndex="0">
         <div className="section-line"><h2>{category.title}</h2></div>
         <div className="menu-grid">
-          {products.map((product) => <ProductCard key={product.id} product={product} onAdd={onAdd} />)}
+          {categoryProducts.map((product) => <ProductCard key={product.id} product={product} onAdd={onAdd} />)}
         </div>
       </section>
     </main>

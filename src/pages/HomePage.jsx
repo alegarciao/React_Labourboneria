@@ -1,11 +1,11 @@
 import { Benefits, FavoritesSection, Hero, LocationSection, StorySection } from '../components/LandingSections.jsx'
 
-export function HomePage({ onAdd, onNavigate }) {
+export function HomePage({ products, onAdd, onNavigate }) {
   return (
     <main>
       <Hero onNavigate={onNavigate} />
       <Benefits />
-      <FavoritesSection onAdd={onAdd} />
+      <FavoritesSection products={products} onAdd={onAdd} />
       <StorySection />
       <LocationSection />
     </main>

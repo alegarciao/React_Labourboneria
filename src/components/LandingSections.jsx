@@ -1,4 +1,3 @@
-import { PRODUCTS } from '../data/products.js'
 import { ProductCard } from './Products.jsx'
 import { AppLink } from './SiteChrome.jsx'
 
@@ -48,12 +47,12 @@ export function Benefits() {
   )
 }
 
-export function FavoritesSection({ onAdd }) {
+export function FavoritesSection({ products, onAdd }) {
   const favorites = FAVORITES.map((favorite) => ({
-    ...PRODUCTS.find((product) => product.id === favorite.id),
+    ...products.find((product) => product.id === favorite.id),
     image: favorite.image,
     imageAlt: favorite.imageAlt,
-  }))
+  })).filter((product) => product.id)
 
   return (
     <section className="section-wrap">

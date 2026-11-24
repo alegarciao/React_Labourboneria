@@ -2,8 +2,8 @@ import { AppLink } from '../components/SiteChrome.jsx'
 import { CartItemCard, ReceiptTotals } from '../components/CartItemCard.jsx'
 import { findProduct } from '../utils/shop.js'
 
-export function CartPage({ cart, totals, onQuantityChange, onPreferenceChange, onCheckout, onClear, onNavigate }) {
-  const items = cart.map((item) => ({ item, product: findProduct(item.id) })).filter(({ product }) => product)
+export function CartPage({ cart, products, totals, onQuantityChange, onPreferenceChange, onCheckout, checkoutPending, checkoutDisabled, catalogUnavailable, checkoutError, onClear, onNavigate }) {
+  const items = cart.map((item) => ({ item, product: findProduct(item.id, products) })).filter(({ product }) => product)
 
   return (
     <main className="cart-page">
@@ -26,8 +26,12 @@ export function CartPage({ cart, totals, onQuantityChange, onPreferenceChange, o
                 <CartItemCard key={item.id} item={item} product={product} onQuantityChange={onQuantityChange} onPreferenceChange={onPreferenceChange} />
               ))}
               <ReceiptTotals totals={totals} />
+              <p className="checkout-privacy-note">Al confirmar, tu pedido y los datos de contacto guardados en Mi Cuenta se enviarán de forma segura a Supabase.</p>
+              {checkoutError && <p className="checkout-error" role="alert">{checkoutError}</p>}
               <div className="cart-page-actions">
-                <button className="btn primary" type="button" onClick={onCheckout}>Confirmar Pedido</button>
+                <button className="btn primary" type="button" onClick={onCheckout} disabled={checkoutPending || checkoutDisabled}>
+                  {checkoutPending ? 'Guardando pedido…' : catalogUnavailable ? 'Catálogo no disponible' : checkoutDisabled ? 'Actualizando catálogo…' : 'Confirmar Pedido'}
+                </button>
                 <button className="btn outline danger" type="button" onClick={onClear}>Limpiar Carrito</button>
                 <AppLink className="btn outline" href="/menu" onNavigate={onNavigate}>Volver al Menú</AppLink>
               </div>

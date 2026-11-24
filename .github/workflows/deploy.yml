@@ -34,7 +34,13 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          test -n "$VITE_SUPABASE_URL" || { echo "::error::Configura la variable VITE_SUPABASE_URL en GitHub Actions."; exit 1; }
+          test -n "$VITE_SUPABASE_PUBLISHABLE_KEY" || { echo "::error::Configura VITE_SUPABASE_PUBLISHABLE_KEY en GitHub Actions."; exit 1; }
+          npm run build
 
       - name: Prepare client-side route fallback
         run: cp dist/index.html dist/404.html

@@ -2,7 +2,7 @@ import { AppLink } from '../components/SiteChrome.jsx'
 import { ReceiptTotals } from '../components/CartItemCard.jsx'
 import { findProduct, formatMoney, itemNotes } from '../utils/shop.js'
 
-export function OrderPage({ order, onNavigate }) {
+export function OrderPage({ order, products, onNavigate }) {
   const currentOrder = order || { number: '#00000', items: [], totals: { subtotal: 0, service: 0, total: 0 } }
   const totals = currentOrder.totals || { subtotal: 0, service: 0, total: 0 }
 
@@ -13,6 +13,7 @@ export function OrderPage({ order, onNavigate }) {
         <p className="eyebrow">Orden <span>{currentOrder.number}</span></p>
         <h1>¡Pedido confirmado!</h1>
         <p>Su pedido ha sido recibido en nuestra barra y estamos comenzando a prepararlo con la atención que merece.</p>
+        {currentOrder.savedRemotely && <p className="order-database-status" role="status">Pedido guardado en la base de datos.</p>}
       </section>
 
       <section className="order-layout">
@@ -22,9 +23,9 @@ export function OrderPage({ order, onNavigate }) {
           <p>Recogida estimada: <strong>10:45 AM</strong></p>
           <div className="receipt-divider" />
           {currentOrder.items.length ? currentOrder.items.map((item, index) => {
-            const product = findProduct(item.id)
+            const product = findProduct(item.id, products)
             if (!product) return null
-            const notes = itemNotes(item)
+            const notes = itemNotes(item, products)
             return (
               <div className="receipt-row" key={`${item.id}-${index}`}>
                 <strong>{item.qty}x {product.name}{notes && <small>{notes}</small>}</strong>
@@ -40,7 +41,7 @@ export function OrderPage({ order, onNavigate }) {
       </section>
 
       <div className="order-actions">
-        <AppLink className="btn primary" href="/admin" onNavigate={onNavigate}>Ver Estado del Pedido</AppLink>
+        <AppLink className="btn primary" href="/cuenta" onNavigate={onNavigate}>Ir a Mi Cuenta</AppLink>
         <AppLink className="btn outline" href="/menu" onNavigate={onNavigate}>Volver al Menú</AppLink>
       </div>
     </main>

@@ -42,7 +42,7 @@ export function loadProfile() {
   return isOldDefault ? DEFAULT_PROFILE : { ...DEFAULT_PROFILE, ...saved }
 }
 
-export const findProduct = (id) => PRODUCTS.find((product) => product.id === id)
+export const findProduct = (id, products = PRODUCTS) => products.find((product) => product.id === id)
 export const formatMoney = (value) => `Bs. ${Number(value || 0).toFixed(2)}`
 
 export function getCustomizationFields(product = {}) {
@@ -59,9 +59,9 @@ export function getCustomizationFields(product = {}) {
   return []
 }
 
-export function getCartTotals(cart) {
+export function getCartTotals(cart, products = PRODUCTS) {
   const subtotal = cart.reduce((sum, item) => {
-    const product = findProduct(item.id)
+    const product = findProduct(item.id, products)
     return sum + (product ? product.price * item.qty : 0)
   }, 0)
   const service = subtotal > 0 ? 5 : 0
@@ -72,8 +72,8 @@ export function getCartCount(cart) {
   return cart.reduce((sum, item) => sum + item.qty, 0)
 }
 
-export function itemNotes(item = {}) {
-  const fields = getCustomizationFields(findProduct(item.id))
+export function itemNotes(item = {}, products = PRODUCTS) {
+  const fields = getCustomizationFields(findProduct(item.id, products))
   const notes = []
   const milk = fields.includes('milk') ? item.milk || '' : ''
   const sugar = fields.includes('sugar') ? item.sugar || '' : ''
@@ -85,8 +85,8 @@ export function itemNotes(item = {}) {
   return notes.join(' · ')
 }
 
-export function normalizeItemOptions(item = {}) {
-  const fields = getCustomizationFields(findProduct(item.id))
+export function normalizeItemOptions(item = {}, products = PRODUCTS) {
+  const fields = getCustomizationFields(findProduct(item.id, products))
   return {
     id: item.id,
     qty: item.qty,
@@ -110,7 +110,7 @@ export function orderMatchesProfile(order, profile) {
   ].some(Boolean)
 }
 
-export function buildPersonalHistory(profile) {
+export function buildPersonalHistory(profile, products = PRODUCTS) {
   const seedText = `${profile.name}|${profile.email}|${profile.phone}|${profile.address}`
   if (!hasProfileDetails(profile)) return []
 
@@ -124,7 +124,7 @@ export function buildPersonalHistory(profile) {
 
   return Array.from({ length: count }, (_, index) => {
     const items = Array.from({ length: 2 + Math.floor(next() * 2) }, () => {
-      const product = PRODUCTS[Math.floor(next() * PRODUCTS.length)]
+      const product = products[Math.floor(next() * products.length)]
       return {
         id: product.id,
         qty: 1 + Math.floor(next() * 3),
@@ -144,7 +144,7 @@ export function buildPersonalHistory(profile) {
         address: profile.address || 'Sin dirección',
       },
       items,
-      totals: getCartTotals(items),
+      totals: getCartTotals(items, products),
       createdAt: date.toISOString(),
       sample: true,
     }

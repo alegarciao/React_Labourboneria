@@ -23,6 +23,7 @@ export function ProfileForm({ onSave, onClear }) {
   return (
     <aside className="profile-card">
       <h2>Detalles Personales <button type="button" aria-label="Editar"><i className="fa-solid fa-pen" aria-hidden="true" /></button></h2>
+      <p className="profile-storage-note" role="note">Estos datos se guardan solo en este navegador. No representan una cuenta autenticada ni se sincronizan con otros dispositivos.</p>
       <form className="profile-form" onSubmit={submit}>
         <InputField label="Nombre" name="name" type="text" autoComplete="name" value={draft.name} onChange={updateField} />
         <InputField label="Correo Electrónico" name="email" type="email" autoComplete="email" value={draft.email} onChange={updateField} />
