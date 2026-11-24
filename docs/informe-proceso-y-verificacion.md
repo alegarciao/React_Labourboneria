@@ -47,7 +47,7 @@ El Node 16 que aparece primero en el `PATH` del terminal no es compatible con Vi
 | Flujo de pedido remoto | En la prueba previa del flujo, se guardó un pedido ficticio con subtotal Bs. 50, servicio Bs. 5 y total Bs. 55; la lectura/actualización directa desde el cliente fue rechazada por RLS y el pedido permaneció pendiente |
 | Servidor local | Vite respondió `HTTP 200` en la dirección indicada abajo |
 | Repositorio público | GitHub respondió `HTTP 200` |
-| GitHub Pages | La URL respondió `HTTP 200`, pero el archivo JavaScript publicado no contiene la referencia al proyecto Supabase ni la integración de catálogo actual. Esa publicación está desactualizada frente al código local. |
+| GitHub Pages | Despliegue del commit `40b5c411afe8616c74497641189c2ff1f82b98fd` terminado con `success` en GitHub Actions (run `45297765098`). La URL respondió `HTTP 200`; el bundle público incluye la referencia al proyecto Supabase esperado y su SHA-256 coincide con el bundle local generado con `.env.local`. |
 | Navegación visual en navegador | No se realizó: no había navegador de prueba disponible en esta sesión |
 
 La prueba CRUD remota no incluyó crear, leer, actualizar ni eliminar pedidos desde el navegador de forma irrestricta: el diseño actual permite al cliente crear pedidos, pero deliberadamente bloquea la lectura de datos privados y los cambios administrativos. El CRUD administrativo requiere autenticación/autorización real en servidor antes de habilitarse.
@@ -70,7 +70,7 @@ La cuenta anónima del navegador no tiene permiso para leer pedidos. La verifica
 - **Página publicada en GitHub Pages:** [alegarciao.github.io/React_Labourboneria](https://alegarciao.github.io/React_Labourboneria/)
 - **Servidor local con la versión actual:** [http://127.0.0.1:5175/](http://127.0.0.1:5175/)
 
-La página pública existe y responde, pero **todavía no sirve la integración más reciente**. Para publicar la versión actual se debe enviar el código actualizado a la rama `main`, configurar en el repositorio las variables de GitHub Actions `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY`, y comprobar que finalice correctamente la ejecución **Deploy to GitHub Pages**. No se subió ningún cambio ni se realizó un `push` durante esta verificación.
+La integración se publicó en `main`. Se configuraron las variables de GitHub Actions `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` con los valores ya preparados en `.env.local`; no se imprimieron ni se añadieron al repositorio. El workflow **Deploy to GitHub Pages** terminó correctamente. La navegación visual y una compra desde el navegador público no se pudieron ejecutar en esta sesión; el envío remoto de pedidos sí se había probado desde el cliente local y la función RPC.
 
 Para iniciar el servidor local en una terminal nueva:
 
@@ -84,4 +84,4 @@ Vite puede elegir otro puerto si 5173 está ocupado. En esta sesión usa el puer
 
 ## 7. Conclusión
 
-La versión local está compilada, consulta los 27 productos de Supabase y dispone del flujo para guardar pedidos remotos. En la prueba previa, un pedido ficticio quedó almacenado y las políticas impidieron que el cliente leyera o alterara el pedido directamente. La URL de GitHub Pages responde, pero se comprobó que su bundle no corresponde a la integración local más reciente; por eso, para presentar una versión pública conectada a Supabase aún falta publicar el código actual y configurar sus dos variables de compilación en GitHub.
+La versión local y la versión pública están compiladas con la conexión al mismo proyecto Supabase. La lectura confirmó 27 productos y el flujo remoto de pedido ya se comprobó localmente; una compra visual desde Pages todavía debe mostrarse y verificarse en Supabase Studio para grabar la demostración académica.

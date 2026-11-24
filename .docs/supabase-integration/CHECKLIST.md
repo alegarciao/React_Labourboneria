@@ -29,6 +29,8 @@ La página 4 presenta como propuesta futura comprobar la sesión y permisos en c
 
 ## Próxima acción
 
-1. Pendiente de publicación: configurar `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` en GitHub Actions, publicar a `main` y comprobar el workflow `Deploy to GitHub Pages`. Pages responde HTTP 200, pero su bundle no incluye la referencia Supabase ni la integración actual.
-2. Probar una compra desde Pages y verificar el pedido en Supabase Studio.
-3. El esquema actual es inferido porque el PDF no incluye un ER formal; sustituirlo por el modelo oficial si la evaluación requiere correspondencia exacta.
+- [x] Publicar la aplicación conectada. Evidencia: variables Actions configuradas; commit `40b5c411afe8616c74497641189c2ff1f82b98fd`; workflow `45297765098` success; Pages HTTP 200 y bundle idéntico al `dist` local.
+- [ ] Probar una compra desde la página pública y verificar el pedido en Supabase Studio. Pendiente de comprobación visual interactiva; el flujo RPC y la persistencia sí fueron comprobados desde cliente local.
+- [ ] Reemplazar el esquema inferido por el modelo ER oficial si la evaluación exige correspondencia exacta; el PDF disponible no es un diagrama ER.
+
+Siguiente acción: abrir Pages, registrar un pedido con datos ficticios y comprobarlo en Supabase Studio.

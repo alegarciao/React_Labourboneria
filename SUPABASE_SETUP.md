@@ -71,7 +71,7 @@ npm run build
 
 ## Pendientes
 
-1. Publicación pendiente: configurar `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` en GitHub Actions Variables, publicar a `main` y verificar el nuevo despliegue. La URL de Pages responde, pero su bundle público no incluye la integración actual.
-2. Después del despliegue, probar una compra desde Pages y verificarla en Supabase Studio.
+1. La integración se desplegó desde `main` en GitHub Pages; el workflow terminó correctamente para el commit `40b5c411afe8616c74497641189c2ff1f82b98fd` (run `45297765098`). Las variables `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` están configuradas como Actions Variables.
+2. Pendiente de demostración: crear un pedido de prueba desde la URL pública y comprobar su registro en Supabase Studio. La operación RPC y la persistencia ya se probaron desde el cliente local.
 3. Sustituir el esquema inferido por el ER oficial si la evaluación exige correspondencia exacta con un modelo formal.
-4. No publicar claves secretas ni credenciales. `.env.local` se ignora por Git y contiene la URL/clave publishable.
+4. No publicar claves secretas ni credenciales. `.env.local` se ignora por Git; las variables de Actions son los valores URL/publicable para la compilación frontend.
